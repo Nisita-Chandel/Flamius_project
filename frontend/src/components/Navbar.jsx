@@ -1,9 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
+import { useState } from "react";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const [open, setOpen] = useState(false);
 
   const logoutHandler = () => {
     localStorage.clear();
@@ -11,8 +13,8 @@ const Navbar = () => {
   };
 
   return (
-<nav className="fixed top-0 left-0 w-full z-50 bg-black text-white font-sans">
-<div className="max-w-7xl mx-auto px-8 py-5 flex items-center justify-between">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-black text-white font-sans">
+      <div className="max-w-7xl mx-auto px-8 py-5 flex items-center justify-between">
 
         {/* LEFT LOGO */}
         <Link
@@ -24,18 +26,10 @@ const Navbar = () => {
 
         {/* CENTER LINKS */}
         <div className="hidden md:flex items-center gap-10 text-sm tracking-widest text-gray-300">
-          <Link to="/" className="hover:text-yellow-400 transition">
-            MENU
-          </Link>
-          <Link to="/" className="hover:text-yellow-400 transition">
-            ORDER
-          </Link>
-          <Link to="/" className="hover:text-yellow-400 transition">
-            EXPERIENCE
-          </Link>
-          <Link to="/" className="hover:text-yellow-400 transition">
-            ABOUT
-          </Link>
+          <Link to="/" className="hover:text-yellow-400 transition">MENU</Link>
+          <Link to="/" className="hover:text-yellow-400 transition">ORDER</Link>
+          <Link to="/" className="hover:text-yellow-400 transition">EXPERIENCE</Link>
+          <Link to="/" className="hover:text-yellow-400 transition">ABOUT</Link>
         </div>
 
         {/* RIGHT ACTIONS */}
@@ -46,41 +40,71 @@ const Navbar = () => {
             RESERVE
           </button>
 
-          {/* AUTH / PROFILE */}
-          {!user ? (
-            <>
-              <Link
-                to="/login"
-                className="text-gray-300 hover:text-yellow-400 transition text-sm"
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="text-gray-300 hover:text-yellow-400 transition text-sm"
-              >
-                Signup
-              </Link>
-            </>
-          ) : (
-            <>
-              {user?.role === "admin" && (
-                <Link
-                  to="/admin"
-                  className="text-yellow-400 hover:text-yellow-300 transition text-sm"
-                >
-                  Admin
-                </Link>
-              )}
+          {/* CONTACT ICON + DROPDOWN (FIXED HOVER) */}
+          <div
+            className="relative"
+            onMouseEnter={() => setOpen(true)}
+            onMouseLeave={() => setOpen(false)}
+          >
+            {/* ICON */}
+            <FaUserCircle
+              size={28}
+              className="text-yellow-500 hover:text-yellow-400 transition cursor-pointer"
+            />
 
-              <button onClick={logoutHandler}>
-                <FaUserCircle
-                  size={26}
-                  className="text-yellow-500 hover:text-yellow-400 transition"
-                />
-              </button>
-            </>
-          )}
+            {/* DROPDOWN MENU */}
+            {open && (
+              <div className="absolute right-0 mt-4 w-60 bg-neutral-900
+                              border border-yellow-500/20 rounded-xl
+                              shadow-2xl overflow-hidden z-50">
+
+                {!user && (
+                  <>
+                    <Link
+                      to="/login"
+                      className="block px-5 py-4 hover:bg-yellow-500/10 transition"
+                    >
+                      <p className="text-sm font-semibold text-white">Sign In</p>
+                      <p className="text-xs text-gray-400">
+                        Access your account
+                      </p>
+                    </Link>
+
+                    <Link
+                      to="/signup"
+                      className="block px-5 py-4 hover:bg-yellow-500/10 transition"
+                    >
+                      <p className="text-sm font-semibold text-white">Sign Up</p>
+                      <p className="text-xs text-gray-400">
+                        Create new account
+                      </p>
+                    </Link>
+                  </>
+                )}
+
+                {user?.role === "admin" && (
+                  <Link
+                    to="/admin"
+                    className="block px-5 py-4 hover:bg-yellow-500/10 transition"
+                  >
+                    <p className="text-sm font-semibold text-white">Admin</p>
+                    <p className="text-xs text-gray-400">
+                      Management panel
+                    </p>
+                  </Link>
+                )}
+
+                {user && (
+                  <button
+                    onClick={logoutHandler}
+                    className="w-full text-left px-5 py-4 hover:bg-yellow-500/10 transition"
+                  >
+                    <p className="text-sm font-semibold text-white">Logout</p>
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
