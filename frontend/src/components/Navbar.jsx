@@ -4,12 +4,11 @@ import { useState } from "react";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
   const [open, setOpen] = useState(false);
 
-  const logoutHandler = () => {
-    localStorage.clear();
-    navigate("/login");
+  const handleNavigate = (path) => {
+    setOpen(false); // close dropdown after click
+    navigate(path);
   };
 
   return (
@@ -40,75 +39,51 @@ const Navbar = () => {
             RESERVE
           </button>
 
-          {/* CONTACT ICON + DROPDOWN (FIXED HOVER) */}
-          <div
-            className="relative"
-            onMouseEnter={() => setOpen(true)}
-            onMouseLeave={() => setOpen(false)}
-          >
-            {/* ICON */}
+          {/* CONTACT ICON */}
+          <div className="relative">
             <FaUserCircle
               size={28}
+              onMouseEnter={() => setOpen(true)}
               className="text-yellow-500 hover:text-yellow-400 transition cursor-pointer"
             />
 
-            {/* DROPDOWN MENU */}
+            {/* DROPDOWN (STAYS OPEN) */}
             {open && (
               <div className="absolute right-0 mt-4 w-60 bg-neutral-900
                               border border-yellow-500/20 rounded-xl
                               shadow-2xl overflow-hidden z-50">
 
-                {!user && (
-                  <>
-                    <Link
-                      to="/login"
-                      className="block px-5 py-4 hover:bg-yellow-500/10 transition"
-                    >
-                      <p className="text-sm font-semibold text-white">Sign In</p>
-                      <p className="text-xs text-gray-400">
-                        Access your account
-                      </p>
-                    </Link>
+                <div
+                  onClick={() => handleNavigate("/login")}
+                  className="px-5 py-4 hover:bg-yellow-500/10 cursor-pointer transition"
+                >
+                  <p className="text-sm font-semibold text-white">Sign In</p>
+                  <p className="text-xs text-gray-400">Access your account</p>
+                </div>
 
-                    <Link
-                      to="/signup"
-                      className="block px-5 py-4 hover:bg-yellow-500/10 transition"
-                    >
-                      <p className="text-sm font-semibold text-white">Sign Up</p>
-                      <p className="text-xs text-gray-400">
-                        Create new account
-                      </p>
-                    </Link>
-                  </>
-                )}
+                <div
+                  onClick={() => handleNavigate("/signup")}
+                  className="px-5 py-4 hover:bg-yellow-500/10 cursor-pointer transition"
+                >
+                  <p className="text-sm font-semibold text-white">Sign Up</p>
+                  <p className="text-xs text-gray-400">Create new account</p>
+                </div>
 
-                {user?.role === "admin" && (
-                  <Link
-                    to="/admin"
-                    className="block px-5 py-4 hover:bg-yellow-500/10 transition"
-                  >
-                    <p className="text-sm font-semibold text-white">Admin</p>
-                    <p className="text-xs text-gray-400">
-                      Management panel
-                    </p>
-                  </Link>
-                )}
+                <div
+                  onClick={() => handleNavigate("/admin")}
+                  className="px-5 py-4 hover:bg-yellow-500/10 cursor-pointer transition"
+                >
+                  <p className="text-sm font-semibold text-white">Admin</p>
+                  <p className="text-xs text-gray-400">Management panel</p>
+                </div>
 
-                {user && (
-                  <button
-                    onClick={logoutHandler}
-                    className="w-full text-left px-5 py-4 hover:bg-yellow-500/10 transition"
-                  >
-                    <p className="text-sm font-semibold text-white">Logout</p>
-                  </button>
-                )}
               </div>
             )}
           </div>
         </div>
       </div>
 
-      {/* GOLD BOTTOM BORDER */}
+      {/* GOLD BORDER */}
       <div className="h-[1px] bg-gradient-to-r from-transparent via-yellow-500 to-transparent"></div>
     </nav>
   );

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../api/api";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { FaUser, FaEnvelope, FaPhone, FaLock } from "react-icons/fa";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,104 +11,139 @@ const Signup = () => {
 
     const name = e.target.name.value;
     const email = e.target.email.value;
+    const mobile = e.target.mobile.value;
     const password = e.target.password.value;
 
     try {
-      await API.post("/auth/signup", { name, email, password });
-      alert("Signup successful");
+      await API.post("/auth/signup", { name, email, mobile, password });
+      alert("Signup successful 🎉");
     } catch (error) {
-      alert("Signup failed");
+      console.error("Signup Error:", error.response?.data);
+      alert(error.response?.data?.message || "Signup failed ❌");
     }
+    
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <form
-        onSubmit={submitHandler}
-        className="bg-white p-8 rounded-2xl shadow-xl w-[350px] transition-transform hover:scale-105"
-      >
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-          Create Account 🍽️
+    <div className="min-h-screen flex items-center justify-center bg-black text-white px-4">
+
+      {/* CARD */}
+      <div className="w-full max-w-md bg-neutral-900/80 backdrop-blur-md
+                      border border-yellow-500/20 rounded-2xl p-8 shadow-2xl">
+
+        {/* HEADER */}
+        <p className="text-yellow-500 tracking-widest text-sm mb-2 text-center">
+          ✦ JOIN THE EXPERIENCE
+        </p>
+
+        <h2 className="text-3xl font-serif text-center mb-2">
+          Begin Your <span className="text-yellow-500">Culinary Journey</span>
         </h2>
 
-        {/* Name */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600 mb-1">
-            Name
-          </label>
-          <input
-            name="name"
-            type="text"
-            required
-            placeholder="Enter your name"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg
-                       focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-          />
-        </div>
+        <p className="text-gray-400 text-center text-sm mb-8">
+          Create your account and unlock exclusive dining experiences,
+          personalized recommendations, and priority reservations.
+        </p>
 
-        {/* Email */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600 mb-1">
-            Email
-          </label>
-          <input
-            name="email"
-            type="email"
-            required
-            placeholder="Enter your email"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg
-                       focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-          />
-        </div>
+        {/* FORM */}
+        <form onSubmit={submitHandler} className="space-y-5">
 
-        {/* Password with REAL Eye */}
-        <div className="mb-6 relative">
-          <label className="block text-sm font-medium text-gray-600 mb-1">
-            Password
-          </label>
+          {/* FULL NAME */}
+          <div>
+            <label className="flex items-center gap-2 text-yellow-500 text-sm mb-1">
+              <FaUser /> FULL NAME
+            </label>
+            <input
+              type="text"
+              name="name"
+              required
+              placeholder="Enter your full name"
+              className="w-full px-4 py-3 rounded-lg bg-neutral-800
+                         border border-yellow-500/20
+                         focus:border-yellow-500 focus:outline-none"
+            />
+          </div>
 
-          <input
-            name="password"
-            type={showPassword ? "text" : "password"}
-            required
-            placeholder="Create a password"
-            className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg
-                       focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-          />
+          {/* EMAIL */}
+          <div>
+            <label className="flex items-center gap-2 text-yellow-500 text-sm mb-1">
+              <FaEnvelope /> EMAIL ADDRESS
+            </label>
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="Enter your email address"
+              className="w-full px-4 py-3 rounded-lg bg-neutral-800
+                         border border-yellow-500/20
+                         focus:border-yellow-500 focus:outline-none"
+            />
+          </div>
 
-          {/* Eye Icon */}
+          {/* MOBILE */}
+          <div>
+            <label className="flex items-center gap-2 text-yellow-500 text-sm mb-1">
+              <FaPhone /> MOBILE NUMBER
+            </label>
+            <input
+              type="text"
+              name="mobile"
+              required
+              placeholder="Enter your mobile number"
+              className="w-full px-4 py-3 rounded-lg bg-neutral-800
+                         border border-yellow-500/20
+                         focus:border-yellow-500 focus:outline-none"
+            />
+          </div>
+
+          {/* PASSWORD */}
+          <div className="relative">
+            <label className="flex items-center gap-2 text-yellow-500 text-sm mb-1">
+              <FaLock /> PASSWORD
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              required
+              placeholder="Create a password"
+              className="w-full px-4 py-3 pr-12 rounded-lg bg-neutral-800
+                         border border-yellow-500/20
+                         focus:border-yellow-500 focus:outline-none"
+            />
+
+            {/* EYE ICON */}
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-11 text-yellow-500 hover:text-yellow-400"
+            >
+              {showPassword ? (
+                <AiFillEyeInvisible size={22} />
+              ) : (
+                <AiFillEye size={22} />
+              )}
+            </button>
+          </div>
+
+          {/* SUBMIT BUTTON */}
           <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-9 text-gray-500 hover:text-blue-500"
+            type="submit"
+            className="w-full mt-6 bg-gradient-to-r from-yellow-600 to-yellow-400
+                       text-black py-3 rounded-lg font-semibold
+                       hover:opacity-90 transition"
           >
-            {showPassword ? (
-              <AiFillEyeInvisible size={22} />
-            ) : (
-              <AiFillEye size={22} />
-            )}
+            BEGIN CULINARY JOURNEY →
           </button>
-        </div>
+        </form>
 
-        {/* Button */}
-        <button
-          type="submit"
-          className="w-full bg-gradient-to-r from-blue-500 to-blue-600
-                     text-white py-2 rounded-lg font-semibold
-                     hover:from-blue-600 hover:to-blue-700
-                     hover:shadow-lg transition-all duration-300"
-        >
-          Signup
-        </button>
-
-        {/* Extra */}
-        <p className="text-sm text-center text-gray-500 mt-4">
+        {/* FOOTER */}
+        <p className="text-center text-sm text-gray-400 mt-6">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-500 hover:underline">
-            Login
+          <a href="/login" className="text-yellow-500 hover:underline">
+            Sign In
           </a>
         </p>
-      </form>
+      </div>
     </div>
   );
 };

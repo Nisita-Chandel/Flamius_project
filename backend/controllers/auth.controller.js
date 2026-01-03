@@ -4,13 +4,55 @@ import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken.js";
 import sendEmail from "../utils/sendEmail.js";
 
+
+
 export const signup = async (req, res) => {
-  const user = await User.create(req.body);
-  res.json({
-    token: generateToken(user._id, user.role),
-    user,
-  });
+  try {
+    const { name, email, password } = req.body;
+
+    // 1. Validation
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
+    }
+
+    // 2. Check duplicate email
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({
+        message: "Email already registered. Please login.",
+      });
+    }
+
+    // 3. Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // 4. Create user
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    res.status(201).json({
+      message: "Signup successful",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+
+  } catch (error) {
+    console.error("Signup Backend Error:", error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
 };
+
 
 export const login = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
