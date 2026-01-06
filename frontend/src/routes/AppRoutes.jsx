@@ -3,18 +3,23 @@ import OrderPage from "../pages/OrderPage";
 
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
+
 import Home from "../pages/Home";
+import ExperiencePage from "../pages/ExperiencePage";
 import AdminDashboard from "../pages/AdminDashboard";
 import ResetPassword from "../pages/ResetPassword";
 import ProtectedRoute from "../components/ProtectedRoute";
+
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
 
+      <Route path="/experience" element={<ExperiencePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+
       <Route
   path="/admin/dashboard"
   element={

@@ -26,9 +26,9 @@ const Navbar = () => {
         {/* CENTER LINKS */}
         <div className="hidden md:flex items-center gap-10 text-sm tracking-widest text-gray-300">
           <Link to="/" className="hover:text-yellow-400 transition">MENU</Link>
-          <Link to="/" className="hover:text-yellow-400 transition">ORDER</Link>
-          <Link to="/" className="hover:text-yellow-400 transition">EXPERIENCE</Link>
-          <Link to="/" className="hover:text-yellow-400 transition">ABOUT</Link>
+          <Link to="/order" className="hover:text-yellow-400 transition">ORDER</Link>
+          <Link to="/experience" className="hover:text-yellow-400 transition">EXPERIENCE</Link>
+          <Link to="/about" className="hover:text-yellow-400 transition">ABOUT</Link>
         </div>
 
         {/* RIGHT ACTIONS */}
