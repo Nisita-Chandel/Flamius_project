@@ -1,116 +1,93 @@
-import { useEffect, useState } from "react";
-import API from "../api/api";
-
 const AdminDashboard = () => {
-  const [products, setProducts] = useState([]);
-  const [orders, setOrders] = useState([]);
-
-  /* ---------------- FETCH PRODUCTS ---------------- */
-  const fetchProducts = async () => {
-    try {
-      const { data } = await API.get("/products");
-      setProducts(data);
-    } catch (error) {
-      console.error("Product fetch error", error);
-    }
-  };
-
-  /* ---------------- FETCH ORDERS (ADMIN) ---------------- */
-  const fetchOrders = async () => {
-    try {
-      const { data } = await API.get("/orders");
-      setOrders(data);
-    } catch (error) {
-      console.error("Order fetch error", error);
-    }
-  };
-
-  /* ---------------- ADD PRODUCT ---------------- */
-  const addProduct = async (e) => {
-    e.preventDefault();
-
-    const name = e.target.name.value;
-    const price = e.target.price.value;
-    const image = e.target.image.value;
-    const description = e.target.description.value;
-
-    try {
-      await API.post("/products", {
-        name,
-        price,
-        image,
-        description,
-      });
-
-      alert("Product added successfully");
-      e.target.reset();
-      fetchProducts();
-    } catch (error) {
-      alert("Only admin can add products");
-    }
-  };
-
-  /* ---------------- LOGOUT ---------------- */
-  const logoutHandler = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.href = "/login";
-  };
-
-  useEffect(() => {
-    fetchProducts();
-    fetchOrders();
-  }, []);
-
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>🍽️ Admin Dashboard</h2>
+    <div className="min-h-screen bg-black text-white">
 
-      <button onClick={logoutHandler}>Logout</button>
+      {/* ================= SUCCESS TOAST ================= */}
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+        <div className="flex items-center gap-3 bg-[#0f7a4a] px-6 py-3 rounded-full shadow-lg border border-green-400/30">
+          <span className="w-6 h-6 flex items-center justify-center rounded-full bg-green-600 text-sm font-bold">
+            ✓
+          </span>
+          <span className="text-sm font-medium text-white">
+            Welcome back, Admin!
+          </span>
+        </div>
+      </div>
 
-      <hr />
-
-      {/* ================= ADD PRODUCT ================= */}
-      <h3>Add New Dish</h3>
-      <form onSubmit={addProduct}>
-        <input name="name" placeholder="Dish Name" required />
-        <input name="price" placeholder="Price" type="number" required />
-        <input name="image" placeholder="Image URL" required />
-        <input name="description" placeholder="Description" required />
-        <button>Add Product</button>
-      </form>
-
-      <hr />
-
-      {/* ================= PRODUCT LIST ================= */}
-      <h3>All Products</h3>
-      {products.length === 0 ? (
-        <p>No products found</p>
-      ) : (
-        products.map((p) => (
-          <div key={p._id} style={{ border: "1px solid #ccc", margin: "10px" }}>
-            <h4>{p.name}</h4>
-            <p>₹{p.price}</p>
-            <img src={p.image} width="100" />
+      {/* ================= HERO ================= */}
+      <section className="px-6 pt-32 pb-24 text-center">
+        <div className="flex justify-center mb-6">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#f0b100] to-[#8a6415] flex items-center justify-center shadow-xl">
+            <span className="text-black text-3xl">👑</span>
           </div>
-        ))
-      )}
+        </div>
 
-      <hr />
+        <p className="text-[#b08a2e] tracking-[0.3em] text-xs mb-4 uppercase">
+          ✦ Culinary Mastery in Numbers
+        </p>
 
-      {/* ================= ORDER LIST ================= */}
-      <h3>All Orders</h3>
-      {orders.length === 0 ? (
-        <p>No orders yet</p>
-      ) : (
-        orders.map((o) => (
-          <div key={o._id} style={{ border: "1px solid green", margin: "10px" }}>
-            <p><strong>User:</strong> {o.user?.email}</p>
-            <p><strong>Total:</strong> ₹{o.total}</p>
-            <p><strong>Status:</strong> {o.status}</p>
-          </div>
-        ))
-      )}
+        <h1 className="text-4xl md:text-6xl font-serif mb-6 leading-tight">
+          <span className="text-white">Order Excellence</span>{" "}
+          <span className="text-[#b08a2e]">(20 Masterpieces)</span>
+        </h1>
+
+        <p className="text-gray-400 max-w-3xl mx-auto text-base md:text-lg">
+          Every order represents a story of culinary passion and exceptional
+          service. Track the journey of gastronomic excellence from kitchen to table.
+        </p>
+      </section>
+
+      {/* ================= STATS ================= */}
+      <section className="px-6 pb-24">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+
+          {/* CARD */}
+          {[
+            {
+              icon: "🎖",
+              label: "Total Orders",
+              value: "20",
+              color: "from-[#f0b100] to-[#8a6415]",
+            },
+            {
+              icon: "👥",
+              label: "Active Customers",
+              value: "0",
+              color: "from-[#10b981] to-[#047857]",
+            },
+            {
+              icon: "💰",
+              label: "Total Revenue",
+              value: "₹202,575",
+              color: "from-[#38bdf8] to-[#0369a1]",
+            },
+            {
+              icon: "📈",
+              label: "Monthly Growth",
+              value: "₹10,129",
+              color: "from-[#c084fc] to-[#6b21a8]",
+            },
+          ].map((card, i) => (
+            <div
+              key={i}
+              className="bg-[#0c0c0c] border border-zinc-800 rounded-2xl p-8 text-center hover:border-[#b08a2e] transition"
+            >
+              <div
+                className={`w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center text-2xl`}
+              >
+                {card.icon}
+              </div>
+
+              <p className="text-gray-400 text-sm mb-2">{card.label}</p>
+              <h3 className="text-3xl font-semibold text-white">
+                {card.value}
+              </h3>
+            </div>
+          ))}
+
+        </div>
+      </section>
+
     </div>
   );
 };

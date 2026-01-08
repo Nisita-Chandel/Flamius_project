@@ -54,7 +54,9 @@ const AdminVerificationPage = () => {
             </p>
   
             {/* Button */}
-            <button className="w-full bg-[#f0b100] text-black py-4 rounded-xl font-semibold flex items-center justify-center gap-2 hover:opacity-90">
+            <button
+              onClick={() => navigate("/admin/orders")}
+            className="w-full bg-[#f0b100] text-black py-4 rounded-xl font-semibold flex items-center justify-center gap-2 hover:opacity-90">
               🔒 SECURE LOGIN
             </button>
           </div>

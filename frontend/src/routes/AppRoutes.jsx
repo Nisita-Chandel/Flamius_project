@@ -11,6 +11,7 @@ import ResetPassword from "../pages/ResetPassword";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AdminPage from "../pages/AdminPage";
 import AdminVerificationPage from "../pages/AdminVerificationPage";
+import AdminOrdersPage from "../pages/AdminOrdersPage";
 
 
 const AppRoutes = () => {
@@ -23,6 +24,7 @@ const AppRoutes = () => {
       <Route path="/signup" element={<Signup />} />
       <Route path="/admin" element={<AdminPage />}/>
       <Route path="/admin/verify" element={< AdminVerificationPage/>}/>
+      <Route path="/admin/orders" element={< AdminOrdersPage/>}/>
 
       <Route
   path="/admin/dashboard"
