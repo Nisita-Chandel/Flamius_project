@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [foods, setFoods] = useState([]);
   const [cart, setCart] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     API.get("/products").then((res) => setFoods(res.data));
   }, []);
@@ -48,7 +49,9 @@ const Home = () => {
 
             {/* BUTTONS */}
             <div className="flex gap-4 mb-6">
-              <button className="bg-yellow-500 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition">
+              <button
+               onClick={() => navigate("/menu")}
+               className="bg-yellow-500 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition">
                 View Menu →
               </button>
               <button className="border border-yellow-500 text-yellow-500 px-6 py-3 rounded-lg hover:bg-yellow-500 hover:text-black transition">

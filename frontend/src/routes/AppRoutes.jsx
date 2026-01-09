@@ -5,6 +5,8 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 
 import Home from "../pages/Home";
+import MenuPage from "../pages/MenuPage";
+
 import ExperiencePage from "../pages/ExperiencePage";
 import AdminDashboard from "../pages/AdminDashboard";
 import ResetPassword from "../pages/ResetPassword";
@@ -18,6 +20,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/menu" element={<MenuPage />} />
 
       <Route path="/experience" element={<ExperiencePage />} />
       <Route path="/login" element={<Login />} />
@@ -25,6 +28,7 @@ const AppRoutes = () => {
       <Route path="/admin" element={<AdminPage />}/>
       <Route path="/admin/verify" element={< AdminVerificationPage/>}/>
       <Route path="/admin/orders" element={< AdminOrdersPage/>}/>
+
 
       <Route
   path="/admin/dashboard"
