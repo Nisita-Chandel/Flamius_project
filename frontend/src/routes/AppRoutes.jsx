@@ -14,6 +14,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import AdminPage from "../pages/AdminPage";
 import AdminVerificationPage from "../pages/AdminVerificationPage";
 import AdminOrdersPage from "../pages/AdminOrdersPage";
+import AboutPage from "../pages/AboutPage";
 
 
 const AppRoutes = () => {
@@ -23,11 +24,14 @@ const AppRoutes = () => {
       <Route path="/menu" element={<MenuPage />} />
 
       <Route path="/experience" element={<ExperiencePage />} />
+      <Route path="/about" element={<AboutPage />} />
+
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/admin" element={<AdminPage />}/>
       <Route path="/admin/verify" element={< AdminVerificationPage/>}/>
       <Route path="/admin/orders" element={< AdminOrdersPage/>}/>
+      
 
 
       <Route
