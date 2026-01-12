@@ -1,4 +1,17 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
+
+/* ===== FADE-UP REUSABLE ANIMATION ===== */
+const FadeUp = ({ children, delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.8, ease: "easeOut", delay }}
+  >
+    {children}
+  </motion.div>
+);
 
 const dishes = [
   {
@@ -85,116 +98,122 @@ const MenuPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white pt-28 px-8">
+    <div className="min-h-screen bg-black text-white pt-28 px-8 overflow-hidden">
 
-      {/* HERO */}
-      <div className="text-center mb-20">
-        <p className="text-yellow-500 tracking-widest text-xs mb-3">
-          ✦ CULINARY MANAGEMENT
-        </p>
-        <h1 className="text-5xl md:text-6xl font-serif mb-6">
-          Master Your <span className="text-yellow-500">Menu Collection</span>
-        </h1>
-        <p className="text-gray-400 max-w-2xl mx-auto text-sm">
-          Curate exceptional dining experiences with our premium menu
-          management system. Each dish tells a story of flavor and excellence.
-        </p>
-      </div>
-
-      {/* HEADER */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
-        <div>
-          <h2 className="text-2xl font-serif">Your Culinary Portfolio</h2>
-          <p className="text-yellow-500 text-sm mt-1">
-            {filteredDishes.length} of {dishes.length} Dishes
+      {/* ================= HERO ================= */}
+      <FadeUp>
+        <div className="text-center mb-20">
+          <p className="text-yellow-500 tracking-widest text-xs mb-3">
+            ✦ CULINARY MANAGEMENT
+          </p>
+          <h1 className="text-5xl md:text-6xl font-serif mb-6">
+            Master Your <span className="text-yellow-500">Menu Collection</span>
+          </h1>
+          <p className="text-gray-400 max-w-2xl mx-auto text-sm">
+            Curate exceptional dining experiences with our premium menu
+            management system.
           </p>
         </div>
+      </FadeUp>
 
-        <button className="bg-gradient-to-r from-yellow-400 to-yellow-600
-          text-black px-6 py-3 rounded-full font-semibold hover:opacity-90">
-          + CREATE NEW MASTERPIECE
-        </button>
-      </div>
+      {/* ================= HEADER ================= */}
+      <FadeUp delay={0.1}>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+          <div>
+            <h2 className="text-2xl font-serif">Your Culinary Portfolio</h2>
+            <p className="text-yellow-500 text-sm mt-1">
+              {filteredDishes.length} of {dishes.length} Dishes
+            </p>
+          </div>
 
-      {/* SEARCH & FILTER */}
-      <div className="grid md:grid-cols-3 gap-4 mb-14">
-        <input
-          type="text"
-          placeholder="Search dishes, descriptions, categories..."
-          className="bg-neutral-900 border border-yellow-500/20
-            rounded-xl px-5 py-3 text-sm outline-none"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <select className="bg-neutral-900 border border-yellow-500/20 rounded-xl px-4 py-3">
-          <option>All Categories</option>
-        </select>
-        <select className="bg-neutral-900 border border-yellow-500/20 rounded-xl px-4 py-3">
-          <option>Sort by Name</option>
-        </select>
-      </div>
+          <button className="bg-gradient-to-r from-yellow-400 to-yellow-600
+            text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition">
+            + CREATE NEW MASTERPIECE
+          </button>
+        </div>
+      </FadeUp>
 
-      {/* STATS */}
+      {/* ================= SEARCH ================= */}
+      <FadeUp delay={0.15}>
+        <div className="grid md:grid-cols-3 gap-4 mb-14">
+          <input
+            type="text"
+            placeholder="Search dishes, descriptions..."
+            className="bg-neutral-900 border border-yellow-500/20
+              rounded-xl px-5 py-3 text-sm outline-none"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <select className="bg-neutral-900 border border-yellow-500/20 rounded-xl px-4 py-3">
+            <option>All Categories</option>
+          </select>
+          <select className="bg-neutral-900 border border-yellow-500/20 rounded-xl px-4 py-3">
+            <option>Sort by Name</option>
+          </select>
+        </div>
+      </FadeUp>
+
+      {/* ================= STATS ================= */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-20">
         {[
           ["SHOWING", filteredDishes.length],
           ["TOTAL DISHES", dishes.length],
           ["STARTING PRICE", "₹0.98"],
-          ["PREMIUM SELECTION", "₹88383"],
+          ["PREMIUM PRICE", "₹88383"],
           ["CATEGORIES", 0],
-        ].map(([label, value]) => (
-          <div
-            key={label}
-            className="bg-neutral-900 rounded-xl py-6 text-center
-              border border-yellow-500/10"
-          >
-            <p className="text-yellow-500 text-2xl font-bold">{value}</p>
-            <p className="text-xs text-gray-400 mt-1">{label}</p>
-          </div>
+        ].map(([label, value], i) => (
+          <FadeUp key={label} delay={i * 0.08}>
+            <div className="bg-neutral-900 rounded-xl py-6 text-center
+              border border-yellow-500/10 hover:-translate-y-1 transition">
+              <p className="text-yellow-500 text-2xl font-bold">{value}</p>
+              <p className="text-xs text-gray-400 mt-1">{label}</p>
+            </div>
+          </FadeUp>
         ))}
       </div>
 
-      {/* DISH GRID */}
+      {/* ================= DISH GRID ================= */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 pb-32">
-        {filteredDishes.map((dish) => (
-          <div
-            key={dish.id}
-            className="bg-neutral-900 rounded-2xl overflow-hidden
-              border border-yellow-500/10 hover:scale-[1.02] transition"
-          >
-            <div className="relative">
-              <img
-                src={dish.image}
-                alt={dish.name}
-                className="h-52 w-full object-cover"
-              />
-              {dish.premium && (
-                <span className="absolute top-4 left-4 bg-yellow-500
-                  text-black text-xs px-3 py-1 rounded-full font-semibold">
-                  ★ PREMIUM
+        {filteredDishes.map((dish, i) => (
+          <FadeUp key={dish.id} delay={i * 0.05}>
+            <div className="bg-neutral-900 rounded-2xl overflow-hidden
+              border border-yellow-500/10 hover:scale-[1.03] transition-all duration-300">
+              
+              <div className="relative">
+                <img
+                  src={dish.image}
+                  alt={dish.name}
+                  className="h-52 w-full object-cover"
+                />
+                {dish.premium && (
+                  <span className="absolute top-4 left-4 bg-yellow-500
+                    text-black text-xs px-3 py-1 rounded-full font-semibold">
+                    ★ PREMIUM
+                  </span>
+                )}
+                <span className="absolute top-4 right-4 bg-black/80
+                  px-3 py-1 rounded-full text-yellow-500 text-sm">
+                  ₹{dish.price}
                 </span>
-              )}
-              <span className="absolute top-4 right-4 bg-black/80
-                px-3 py-1 rounded-full text-yellow-500 text-sm">
-                ₹{dish.price}
-              </span>
-            </div>
+              </div>
 
-            <div className="p-6">
-              <h3 className="font-serif text-lg">{dish.name}</h3>
-              <p className="text-gray-400 text-sm mt-1">{dish.desc}</p>
+              <div className="p-6">
+                <h3 className="font-serif text-lg">{dish.name}</h3>
+                <p className="text-gray-400 text-sm mt-1">{dish.desc}</p>
 
-              <div className="flex justify-between items-center mt-6">
-                <button className="text-yellow-500 text-sm tracking-widest hover:underline">
-                  REFINE DISH
-                </button>
-                <button className="text-red-500 hover:text-red-400">🗑</button>
+                <div className="flex justify-between items-center mt-6">
+                  <button className="text-yellow-500 text-sm tracking-widest hover:underline">
+                    REFINE DISH
+                  </button>
+                  <button className="text-red-500 hover:text-red-400 transition">
+                    🗑
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </FadeUp>
         ))}
       </div>
-
     </div>
   );
 };
