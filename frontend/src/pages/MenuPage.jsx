@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { MdDelete } from "react-icons/md";
 
 /* ===== FADE-UP REUSABLE ANIMATION ===== */
 const FadeUp = ({ children, delay = 0 }) => (
@@ -116,81 +117,28 @@ const MenuPage = () => {
         </div>
       </FadeUp>
 
-      {/* ================= HEADER ================= */}
-      <FadeUp delay={0.1}>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
-          <div>
-            <h2 className="text-2xl font-serif">Your Culinary Portfolio</h2>
-            <p className="text-yellow-500 text-sm mt-1">
-              {filteredDishes.length} of {dishes.length} Dishes
-            </p>
-          </div>
-
-          <button className="bg-gradient-to-r from-yellow-400 to-yellow-600
-            text-black px-6 py-3 rounded-full font-semibold hover:opacity-90 transition">
-            + CREATE NEW MASTERPIECE
-          </button>
-        </div>
-      </FadeUp>
-
-      {/* ================= SEARCH ================= */}
-      <FadeUp delay={0.15}>
-        <div className="grid md:grid-cols-3 gap-4 mb-14">
-          <input
-            type="text"
-            placeholder="Search dishes, descriptions..."
-            className="bg-neutral-900 border border-yellow-500/20
-              rounded-xl px-5 py-3 text-sm outline-none"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <select className="bg-neutral-900 border border-yellow-500/20 rounded-xl px-4 py-3">
-            <option>All Categories</option>
-          </select>
-          <select className="bg-neutral-900 border border-yellow-500/20 rounded-xl px-4 py-3">
-            <option>Sort by Name</option>
-          </select>
-        </div>
-      </FadeUp>
-
-      {/* ================= STATS ================= */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-20">
-        {[
-          ["SHOWING", filteredDishes.length],
-          ["TOTAL DISHES", dishes.length],
-          ["STARTING PRICE", "₹0.98"],
-          ["PREMIUM PRICE", "₹88383"],
-          ["CATEGORIES", 0],
-        ].map(([label, value], i) => (
-          <FadeUp key={label} delay={i * 0.08}>
-            <div className="bg-neutral-900 rounded-xl py-6 text-center
-              border border-yellow-500/10 hover:-translate-y-1 transition">
-              <p className="text-yellow-500 text-2xl font-bold">{value}</p>
-              <p className="text-xs text-gray-400 mt-1">{label}</p>
-            </div>
-          </FadeUp>
-        ))}
-      </div>
-
       {/* ================= DISH GRID ================= */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 pb-32">
         {filteredDishes.map((dish, i) => (
           <FadeUp key={dish.id} delay={i * 0.05}>
             <div className="bg-neutral-900 rounded-2xl overflow-hidden
-              border border-yellow-500/10 hover:scale-[1.03] transition-all duration-300">
-              
+              border border-yellow-500/10 hover:scale-[1.03]
+              transition-all duration-300">
+
               <div className="relative">
                 <img
                   src={dish.image}
                   alt={dish.name}
                   className="h-52 w-full object-cover"
                 />
+
                 {dish.premium && (
                   <span className="absolute top-4 left-4 bg-yellow-500
                     text-black text-xs px-3 py-1 rounded-full font-semibold">
                     ★ PREMIUM
                   </span>
                 )}
+
                 <span className="absolute top-4 right-4 bg-black/80
                   px-3 py-1 rounded-full text-yellow-500 text-sm">
                   ₹{dish.price}
@@ -205,9 +153,16 @@ const MenuPage = () => {
                   <button className="text-yellow-500 text-sm tracking-widest hover:underline">
                     REFINE DISH
                   </button>
-                  <button className="text-red-500 hover:text-red-400 transition">
-                    🗑
-                  </button>
+
+                  {/* REAL DELETE ICON */}
+                  <motion.button
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.9 }}
+                    title="Delete Dish"
+                    className="text-red-100 hover:text-red-400 transition"
+                  >
+                    <MdDelete size={18} />
+                  </motion.button>
                 </div>
               </div>
             </div>
