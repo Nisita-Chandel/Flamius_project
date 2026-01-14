@@ -1,105 +1,90 @@
-import crypto from "crypto";
-import User from "../models/User.js";
 import bcrypt from "bcryptjs";
+import User from "../models/User.js";
 import generateToken from "../utils/generateToken.js";
-import sendEmail from "../utils/sendEmail.js";
 
-
-
+/* ================= SIGNUP ================= */
 export const signup = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, mobile, password } = req.body;
 
-    // 1. Validation
-    if (!name || !email || !password) {
-      return res.status(400).json({
-        message: "All fields are required",
-      });
+    if (!name || !email || !mobile || !password) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
-    // 2. Check duplicate email
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({
-        message: "Email already registered. Please login.",
-      });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ message: "User already exists" });
     }
 
-    // 3. Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // 4. Create user
     const user = await User.create({
       name,
       email,
-      password: hashedPassword,
+      mobile,
+      password,
     });
 
     res.status(201).json({
-      message: "Signup successful",
+      success: true,
+      message: "Signup successful 🎉",
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
+        mobile: user.mobile,
       },
     });
-
   } catch (error) {
-    console.error("Signup Backend Error:", error);
+    console.error("Signup Error:", error);
+    res.status(500).json({ message: "Signup failed" });
+  }
+};
+
+/* ================= LOGIN / SIGNIN ================= */
+export const signin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // ✅ Validation
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required",
+      });
+    }
+
+    // ✅ Find user
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    // ✅ Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    // ✅ Generate JWT
+    const token = generateToken(user._id);
+
+    res.status(200).json({
+      success: true,
+      message: "Login successful 🎉",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    console.error("Signin Error:", error);
     res.status(500).json({
-      message: "Internal server error",
+      message: "Login failed",
     });
   }
-};
-
-
-export const login = async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
-  if (!user || !(await bcrypt.compare(req.body.password, user.password)))
-    return res.status(401).json({ message: "Invalid credentials" });
-
-  res.json({
-    token: generateToken(user._id, user.role),
-    user,
-  });
-};
-
-export const forgotPassword = async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
-  if (!user) return res.json({ message: "Email sent if exists" });
-
-  const token = crypto.randomBytes(32).toString("hex");
-  user.resetToken = token;
-  user.resetTokenExpire = Date.now() + 10 * 60 * 1000;
-  await user.save();
-
-  const link = `http://localhost:5173/reset-password/${token}`;
-  await sendEmail(
-    user.email,
-    "Reset Password",
-    `<a href="${link}">Reset Password</a>`
-  );
-
-  res.json({ message: "Reset email sent" });
-};
-export const resetPassword = async (req, res) => {
-  const { token } = req.params;
-  const { password } = req.body;
-
-  const user = await User.findOne({
-    resetToken: token,
-    resetTokenExpire: { $gt: Date.now() },
-  });
-
-  if (!user) {
-    return res.status(400).json({ message: "Token invalid or expired" });
-  }
-
-  user.password = password;
-  user.resetToken = undefined;
-  user.resetTokenExpire = undefined;
-  await user.save();
-
-  res.json({ message: "Password reset successful" });
 };
