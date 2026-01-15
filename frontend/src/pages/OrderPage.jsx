@@ -61,7 +61,7 @@ const OrderPage = () => {
       {/* ================= HERO ================= */}
       <FadeUp>
         <section className="flex flex-col items-center text-center px-4 py-16">
-          <div className="w-[72px] h-[72px] rounded-2xl bg-[#F0B100]
+          <div className="w-[70px] h-[70px] rounded-2xl bg-[#F0B100]
                           flex items-center justify-center shadow-2xl mb-4">
             👑
           </div>
@@ -109,24 +109,42 @@ const OrderPage = () => {
               <div className="mb-12">
                 <h2 className="text-xl font-semibold mb-4">
                   Order Items{" "}
-                  <span className="text-[#c9a24d] text-sm">
-                    ({items.length})
-                  </span>
+                  <span className="text-[#c9a24d] text-sm">({items.length})</span>
                 </h2>
 
+                {/* HEADINGS */}
+                <div className="grid md:grid-cols-5 gap-3 mb-4 text-sm font-semibold text-[#c9a24d]">
+                  <span>CATEGORY</span>
+                  <span>ITEM NAME</span>
+                  <span>QUANTITY</span>
+                  <span>PRICE (₹)</span>
+                  <span>SPECIAL NOTES</span>
+                </div>
+
+                {/* ITEM FIELDS */}
                 {items.map((_, i) => (
                   <div key={i} className="grid md:grid-cols-5 gap-3 mb-4">
                     <select className="bg-black border border-zinc-800 rounded-xl px-3 py-2">
                       <option>Dishes</option>
-                      <option>Drinks</option>
+                      <option>Coffee</option>
+                      <option>Appetizers</option>
+                      <option>Main Course</option>
+                      <option>Desserts</option>
+                      <option>Beverages</option>
+                      <option>Specials</option>
                     </select>
-                    <input className="bg-black border border-zinc-800 rounded-xl px-3 py-2" />
+
+                    <input placeholder="Enter item name" className="bg-black border border-zinc-800 rounded-xl px-3 py-2" />
+
                     <input type="number" defaultValue={1} className="bg-black border border-zinc-800 rounded-xl px-3 py-2" />
+
                     <input type="number" placeholder="0" className="bg-black border border-zinc-800 rounded-xl px-3 py-2" />
-                    <input className="bg-black border border-zinc-800 rounded-xl px-3 py-2" />
+
+                    <input placeholder="Special notes" className="bg-black border border-zinc-800 rounded-xl px-3 py-2" />
                   </div>
                 ))}
 
+                {/* ADD ITEM BUTTON */}
                 <button
                   onClick={addItem}
                   className="w-full mt-6 border border-dashed border-[#c9a24d]/40
@@ -144,6 +162,7 @@ const OrderPage = () => {
                   <h3 className="text-[#c9a24d] font-semibold mb-4">
                     PAYMENT METHOD
                   </h3>
+
                   <select
                     value={paymentMethod}
                     onChange={(e) => setPaymentMethod(e.target.value)}
@@ -159,6 +178,7 @@ const OrderPage = () => {
                   <h3 className="text-[#c9a24d] font-semibold mb-4">
                     SPECIAL INSTRUCTIONS
                   </h3>
+
                   <textarea className="w-full bg-[#0c0c0c] border border-zinc-800 rounded-lg px-4 py-3 h-20" />
                 </div>
               </div>
@@ -171,10 +191,12 @@ const OrderPage = () => {
                   <span>Subtotal</span>
                   <span>₹{subtotal.toFixed(2)}</span>
                 </div>
+
                 <div className="flex justify-between text-gray-300 mb-2">
                   <span>Tax (18% GST)</span>
                   <span>₹{tax.toFixed(2)}</span>
                 </div>
+
                 <div className="flex justify-between text-xl font-semibold text-[#c9a24d]">
                   <span>Total Amount</span>
                   <span>₹{total.toFixed(2)}</span>
@@ -196,6 +218,7 @@ const OrderPage = () => {
           </div>
         </FadeUp>
       </section>
+
     </div>
   );
 };
