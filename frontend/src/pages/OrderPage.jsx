@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
+
 
 /* ===== REUSABLE FADE-UP ANIMATION ===== */
 const FadeUp = ({ children, delay = 0 }) => (
@@ -20,7 +22,9 @@ const OrderPage = () => {
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Card");
-
+  const [customerName, setCustomerName] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  
   const addItem = () => {
     setItems([
       ...items,
@@ -32,10 +36,50 @@ const OrderPage = () => {
   const tax = subtotal * 0.18;
   const total = subtotal + tax;
 
-  const handlePlaceOrder = () => {
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
+  const [manualTotal, setManualTotal] = useState(total);
+  useEffect(() => {
+    setManualTotal(total);
+  }, [total]);
+
+
+  const handlePlaceOrder = async () => {
+    try {
+      const token = localStorage.getItem("token");
+  
+      if (!token) {
+        alert("Please login first");
+        return;
+      }
+      if (!customerName.trim()) {
+        alert("Customer name is required");
+        return;
+      }
+  
+      await axios.post(
+        "http://localhost:5000/api/orders",
+        {customerName,
+          contactNumber,
+          items,
+          subtotal,
+          tax,
+          total,
+          paymentMethod,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    } catch (error) {
+      console.error(error);
+      alert("Order not saved ❌");
+    }
   };
+  
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -61,10 +105,12 @@ const OrderPage = () => {
       {/* ================= HERO ================= */}
       <FadeUp>
         <section className="flex flex-col items-center text-center px-4 py-16">
-          <div className="w-[70px] h-[70px] rounded-2xl bg-[#F0B100]
-                          flex items-center justify-center shadow-2xl mb-4">
-            👑
-          </div>
+        <div className="w-[70px] h-[70px] rounded-2xl bg-[#D29B0D]
+                flex items-center justify-center shadow-2xl mb-4">
+  <span className="text-4xl transform scale-110 drop-shadow-md">
+    👑
+  </span>
+</div>
 
           <p className="text-[#b08a2e] tracking-[0.35em] text-xs mb-3 uppercase">
             ✨ CREATE YOUR ORDER
@@ -93,19 +139,24 @@ const OrderPage = () => {
                 <label className="text-[#c9a24d] text-sm mb-2 block">
                   CUSTOMER NAME *
                 </label>
-                <input className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3" />
+                <input className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3" 
+                 value={customerName}
+                 onChange={(e) => setCustomerName(e.target.value)}/>
               </div>
 
               <div>
                 <label className="text-[#c9a24d] text-sm mb-2 block">
+                  
                   CONTACT NUMBER
                 </label>
-                <input className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3" />
+                <input className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3" 
+                value={contactNumber}
+                onChange={(e) => setContactNumber(e.target.value)}/>
               </div>
             </div>
 
             {/* ORDER ITEMS */}
-            <FadeUp delay={0.2}>
+            <FadeUp delay={0.1}>
               <div className="mb-12">
                 <h2 className="text-xl font-semibold mb-4">
                   Order Items{" "}
@@ -122,10 +173,10 @@ const OrderPage = () => {
                 </div>
 
                 {/* ITEM FIELDS */}
-                {items.map((_, i) => (
+                {items.map((item, i) => (
                   <div key={i} className="grid md:grid-cols-5 gap-3 mb-4">
                     <select className="bg-black border border-zinc-800 rounded-xl px-3 py-2">
-                      <option>Dishes</option>
+                     <option>Dishes</option>
                       <option>Coffee</option>
                       <option>Appetizers</option>
                       <option>Main Course</option>
@@ -134,13 +185,37 @@ const OrderPage = () => {
                       <option>Specials</option>
                     </select>
 
-                    <input placeholder="Enter item name" className="bg-black border border-zinc-800 rounded-xl px-3 py-2" />
+                    <input placeholder="Enter item name" className="bg-black border border-zinc-800 rounded-xl px-3 py-2"
+                     value={item.name}
+                     onChange={(e) => {
+                       const copy = [...items];
+                       copy[i].name = e.target.value;
+                       setItems(copy);
+                     }}/>
 
-                    <input type="number" defaultValue={1} className="bg-black border border-zinc-800 rounded-xl px-3 py-2" />
+                    <input type="number" className="bg-black border border-zinc-800 rounded-xl px-3 py-2"
+                     value={item.price}
+                     onChange={(e) => {
+                      const copy = [...items];
+                      copy[i].price = Number(e.target.value);
+                      setItems(copy);
+                    }}/>
 
-                    <input type="number" placeholder="0" className="bg-black border border-zinc-800 rounded-xl px-3 py-2" />
+                    <input type="number" placeholder="0" className="bg-black border border-zinc-800 rounded-xl px-3 py-2" 
+                      value={item.qty}
+                      onChange={(e) => {
+                        const copy = [...items];
+                        copy[i].qty = Number(e.target.value);
+                        setItems(copy);
+                      }}/>
 
-                    <input placeholder="Special notes" className="bg-black border border-zinc-800 rounded-xl px-3 py-2" />
+                    <input placeholder="Special notes" className="bg-black border border-zinc-800 rounded-xl px-3 py-2"
+                    value={item.note}
+                    onChange={(e) => {
+                      const copy = [...items];
+                      copy[i].note = e.target.value;
+                      setItems(copy);
+                    }} />
                   </div>
                 ))}
 
@@ -199,8 +274,8 @@ const OrderPage = () => {
 
                 <div className="flex justify-between text-xl font-semibold text-[#c9a24d]">
                   <span>Total Amount</span>
-                  <span>₹{total.toFixed(2)}</span>
-                </div>
+                  <span>₹{manualTotal.toFixed(2)}</span>
+                </div>  
               </div>
             </FadeUp>
 
@@ -210,7 +285,7 @@ const OrderPage = () => {
               whileTap={{ scale: 0.96 }}
               onClick={handlePlaceOrder}
               className="w-full bg-[#F0B100] text-black py-4 rounded-xl
-                         text-lg font-semibold transition"
+                         text-lg font-semibold transition mt-10"
             >
               PLACE ORDER AT FLAMIUS →
             </motion.button>

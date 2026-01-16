@@ -1,38 +1,35 @@
-// controllers/orderController.js
 import Order from "../models/Order.js";
 
 export const createOrder = async (req, res) => {
   try {
-    const { items, total, customerName, contactNumber } = req.body;
-
+    const { customerName, contactNumber, items, subtotal, tax, total,paymentMethod} = req.body;
+    
+    if (!customerName) {
+      return res.status(400).json({ message: "Customer name is required" });
+    }
     if (!items || items.length === 0) {
-      return res.status(400).json({ message: "No order items provided" });
+      return res.status(400).json({ message: "No items in order" });
     }
 
     const order = await Order.create({
-      user: req.user._id, // user comes from auth middleware
+      user: req.user._id,
       customerName,
       contactNumber,
       items,
+      subtotal,
+      tax,
       total,
+      paymentMethod,
     });
+    console.log("REQ BODY:", req.body);
 
     res.status(201).json({
       success: true,
-      message: "Order placed successfully",
+      message: "Order saved successfully",
       order,
     });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-export const getOrders = async (req, res) => {
-  try {
-    const orders = await Order.find().populate("user", "name email");
-    res.json(orders);
-  } catch (err) {
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
