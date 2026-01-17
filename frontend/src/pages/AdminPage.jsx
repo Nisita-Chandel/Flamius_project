@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import axios from "axios";
 
 /* ===== REUSABLE FADE-UP ANIMATION ===== */
 const FadeUp = ({ children, delay = 0 }) => (
@@ -15,6 +17,36 @@ const FadeUp = ({ children, delay = 0 }) => (
 
 const AdminPage = () => {
   const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  /* ================= SEND OTP ================= */
+  const handleSendOtp = async () => {
+    if (!email) {
+      alert("Please enter admin email");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      console.log("📧 Sending OTP to:", email);
+
+      await axios.post("http://localhost:5000/api/admin/send-otp", {
+        email,
+      });
+
+      console.log("✅ OTP sent successfully");
+
+      navigate("/admin/verify", { state: { email } });
+    } catch (error) {
+      console.error("❌ Send OTP Error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Failed to send OTP");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
@@ -80,6 +112,8 @@ const AdminPage = () => {
                 </label>
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@flamius.com"
                   className="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3
                              focus:outline-none focus:border-[#f0b100]
@@ -90,13 +124,15 @@ const AdminPage = () => {
 
               {/* Button */}
               <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={() => navigate("/admin/verify")}
+                whileHover={{ scale: loading ? 1 : 1.03 }}
+                whileTap={{ scale: loading ? 1 : 0.96 }}
+                disabled={loading}
+                onClick={handleSendOtp}
                 className="w-full bg-[#f0b100] text-black py-4 rounded-xl
-                           font-semibold flex items-center justify-center gap-3"
+                           font-semibold flex items-center justify-center gap-3
+                           disabled:opacity-60"
               >
-                ✉ SEND VERIFICATION CODE
+                ✉ {loading ? "SENDING..." : "SEND VERIFICATION CODE"}
               </motion.button>
 
               {/* Security Note */}
@@ -126,7 +162,6 @@ const AdminPage = () => {
                 Our admin portal provides complete control over all business operations.
               </p>
 
-              {/* Feature Cards */}
               <div className="space-y-6">
 
                 {/* Feature 1 */}
@@ -175,6 +210,31 @@ const AdminPage = () => {
                     <p className="text-gray-400 text-sm">
                       Access comprehensive business insights, sales data,
                       and customer analytics in real-time.
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Feature 3 */}
+                <motion.div
+                  whileHover={{ y: -6 }}
+                  className="bg-[#0c0c0c] border border-zinc-800 rounded-2xl
+                             p-6 flex gap-4
+                             hover:border-[#b08a2e]
+                             hover:shadow-[0_0_30px_rgba(240,177,0,0.15)]
+                             transition"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br
+                                  from-[#f0b100] to-[#8a6415]
+                                  flex items-center justify-center text-xl">
+                    🔒
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-lg mb-1">
+                      Complete Control
+                    </h3>
+                    <p className="text-gray-400 text-sm">
+                      Full authority over menus, orders, staff management,
+                      pricing, and system configurations from a single dashboard.
                     </p>
                   </div>
                 </motion.div>
