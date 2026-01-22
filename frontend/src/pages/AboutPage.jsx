@@ -167,58 +167,7 @@ const AboutPage = () => {
       </FadeUp>
 
       {/* ================= FOOTER ================= */}
-      <footer className="bg-black text-gray-400 pt-24 px-6 border-t border-yellow-500/10">
-        <FadeUp>
-          <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
-
-            <div>
-              <h3 className="text-yellow-500 font-serif text-2xl mb-4">
-                🔥 FLAMIUS
-              </h3>
-              <p className="text-sm">
-                Experience the art of premium coffee crafted with precision and passion.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="text-yellow-500 tracking-widest mb-4">
-                QUICK LINKS
-              </h4>
-              <ul className="space-y-3 text-sm">
-                <li>Home</li>
-                <li>Menu</li>
-                <li>About</li>
-                <li>Contact</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-yellow-500 tracking-widest mb-4">
-                CONTACT INFO
-              </h4>
-              <ul className="space-y-3 text-sm">
-                <li>Main Market, Balaghat</li>
-                <li>+91 XXXX XXXX XX</li>
-                <li>hello@flamius.com</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-yellow-500 tracking-widest mb-4">
-                OPENING HOURS
-              </h4>
-              <p className="text-sm">
-                Mon–Sun: 7:00 AM – 11:00 PM
-              </p>
-            </div>
-          </div>
-        </FadeUp>
-
-        <div className="text-center text-xs text-gray-500 mt-12 pb-6">
-          © {new Date().getFullYear()} Flamius. All rights reserved.
-        </div>
-      </footer>
-
+      
     </div>
   );
 };

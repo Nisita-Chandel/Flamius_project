@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { MdDelete } from "react-icons/md";
+import { Link } from "react-router-dom";
+
 
 /* ===== FADE-UP REUSABLE ANIMATION ===== */
 const FadeUp = ({ children, delay = 0 }) => (
@@ -169,6 +171,7 @@ const MenuPage = () => {
           </FadeUp>
         ))}
       </div>
+          
     </div>
   );
 };

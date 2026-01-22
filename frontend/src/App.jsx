@@ -2,6 +2,8 @@ import { BrowserRouter } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
 import { Toaster } from "react-hot-toast";
+import ScrollToTop from "./pages/ScrollToTop";
+import Footer from "./pages/Footer";
 
 const App = () => {
   return (
@@ -11,10 +13,12 @@ const App = () => {
 
       {/* FIXED NAVBAR */}
       <Navbar />
+      <ScrollToTop />   {/* ✅ allowed here */}
 
       {/* PUSH CONTENT BELOW NAVBAR */}
       <div className="pt-20">
         <AppRoutes />
+        <Footer/>
       </div>
     </BrowserRouter>
   );

@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+
 
 /* ===== REUSABLE FADE-UP ANIMATION ===== */
 const FadeUp = ({ children, delay = 0 }) => (
@@ -171,45 +173,7 @@ const ExperiencePage = () => {
       </section>
 
       {/* ================= FOOTER ================= */}
-      <footer className="px-6 py-20 border-t border-zinc-800">
-        <FadeUp>
-          <div className="grid md:grid-cols-4 gap-12 max-w-7xl mx-auto">
-            <div>
-              <h3 className="text-[#f0b100] font-serif text-xl mb-4">FLAMIUS</h3>
-              <p className="text-gray-400 text-sm">
-                Experience the art of premium coffee crafted with precision and passion.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="text-[#b08a2e] mb-4">QUICK LINKS</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
-                <li>Home</li>
-                <li>Menu</li>
-                <li>About</li>
-                <li>Contact</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-[#b08a2e] mb-4">CONTACT INFO</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
-                <li>Main Market, Balaghat, MP</li>
-                <li>+91 XXXXX XXXXX</li>
-                <li>hello@flamius.com</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-[#b08a2e] mb-4">OPENING HOURS</h4>
-              <p className="text-gray-400 text-sm">
-                Mon–Fri: 7:00 AM – 11:00 PM <br />
-                Sat–Sun: 8:00 AM – 12:00 AM
-              </p>
-            </div>
-          </div>
-        </FadeUp>
-      </footer>
+     
     </div>
   );
 };
