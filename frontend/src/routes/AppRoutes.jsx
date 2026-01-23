@@ -13,6 +13,8 @@ import AdminDashboard from "../pages/AdminDashboard";
 import OrderPage from "../pages/OrderPage";
 import ResetPassword from "../pages/ResetPassword";
 import ProtectedRoute from "../components/ProtectedRoute";
+import ReservationPage from "../pages/ReservationPage";
+import ContactPage from "../pages/ContactPage";
 
 const AppRoutes = () => {
   return (
@@ -28,6 +30,10 @@ const AppRoutes = () => {
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/admin/verify" element={<AdminVerificationPage />} />
       <Route path="/admin/orders" element={<AdminOrdersPage />} />
+      <Route path="/reservations" element={<ReservationPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+
+
 
       <Route
         path="/admin/dashboard"
