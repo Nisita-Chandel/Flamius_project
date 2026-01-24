@@ -53,8 +53,8 @@ const AboutPage = () => {
                   📍 Visit Us
                 </h4>
                 <p className="text-gray-300 text-sm">
-                  Main Market, Balaghat <br />
-                  Madhya Pradesh 481001
+                  Main Market, Bhopal <br />
+                  Madhya Pradesh 462022
                 </p>
                 <p className="text-yellow-500 text-xs mt-2">
                   Located in the heart of the city
@@ -155,9 +155,9 @@ const AboutPage = () => {
           <div className="rounded-2xl bg-gradient-to-b from-[#1e2b3b] to-[#0b1622]
                           p-16 text-center border border-yellow-500/10">
             <div className="text-yellow-500 text-4xl mb-4">📍</div>
-            <h4>Main Market, Balaghat</h4>
+            <h4>Main Market, Bhopal</h4>
             <p className="text-gray-400 text-sm">
-              Madhya Pradesh 481001
+              Madhya Pradesh 462022
             </p>
             <p className="text-yellow-500 text-sm mt-4">
               Interactive Map Coming Soon

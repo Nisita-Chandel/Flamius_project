@@ -25,6 +25,8 @@ const Navbar = () => {
 
         {/* CENTER LINKS */}
         <div className="hidden md:flex items-center gap-10 text-sm tracking-widest text-gray-300">
+        <Link to="/" className="hover:text-yellow-400 transition">HOME</Link>
+
           <Link to="/menu" className="hover:text-yellow-400 transition">MENU</Link>
           <Link to="/order" className="hover:text-yellow-400 transition">ORDER</Link>
           <Link to="/experience" className="hover:text-yellow-400 transition">EXPERIENCE</Link>
@@ -35,7 +37,10 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
 
           {/* RESERVE BUTTON */}
-          <button className="hidden sm:block bg-yellow-500 text-black px-5 py-2 rounded-full text-sm font-semibold hover:bg-yellow-400 transition">
+          <button 
+           onClick={() => handleNavigate("/reservations")}
+
+           className="hidden sm:block bg-yellow-500 text-black px-5 py-2 rounded-full text-sm font-semibold hover:bg-yellow-400 transition">
             RESERVE
           </button>
 

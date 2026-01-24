@@ -62,7 +62,7 @@ const Footer = () => {
           <div>
             <h4 className="text-[#b08a2e] mb-4">CONTACT INFO</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li>📍 Main Market, Balaghat, MP</li>
+              <li>📍 Main Market, Bhopal, MP</li>
               <li>📞 +91 XXXX XXXX XX</li>
               <li>✉️ hello@flamius.com</li>
             </ul>
