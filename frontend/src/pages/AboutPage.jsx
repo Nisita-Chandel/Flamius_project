@@ -1,12 +1,13 @@
+import React from "react";
 import { motion } from "framer-motion";
 
-/* ===== REUSABLE FADE-UP ANIMATION ===== */
+/* ---------- Fade Animation ---------- */
 const FadeUp = ({ children, delay = 0 }) => (
   <motion.div
-    initial={{ opacity: 0, y: 40 }}
+    initial={{ opacity: 0, y: 50 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
-    transition={{ duration: 0.8, ease: "easeOut", delay }}
+    transition={{ duration: 0.7, delay }}
   >
     {children}
   </motion.div>
@@ -16,158 +17,168 @@ const AboutPage = () => {
   return (
     <div className="bg-black text-white pt-28 overflow-hidden">
 
-      {/* ================= HERO ================= */}
+      {/* HERO */}
       <FadeUp>
         <section className="text-center px-6 mb-24">
-          <p className="text-yellow-500 tracking-widest text-xs mb-4">
-            ✦ GET IN TOUCH
+          <p className="text-yellow-500 tracking-[0.3em] text-xs mb-4 uppercase">
+            ✦ Get In Touch
           </p>
 
-          <h1 className="text-5xl md:text-6xl font-serif mb-6">
+          <h1 className="text-5xl md:text-6xl font-serif mb-6 leading-tight">
             Let’s Create <br />
-            <span className="text-yellow-500">Memories Together</span>
+            <span className="text-yellow-500">
+              Memories Together
+            </span>
           </h1>
 
-          <p className="text-gray-400 max-w-2xl mx-auto text-sm">
-            We'd love to hear from you. Whether you're planning a special event
-            or just want to say hello, our team is here to make your experience
-            extraordinary.
+          <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
+            We'd love to hear from you. Whether you're planning a special
+            dinner or celebrating a memorable event, our team is here for you.
           </p>
         </section>
       </FadeUp>
 
-      {/* ================= CONTACT ================= */}
-      <section className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 mb-32">
-        
+      {/* CONTACT SECTION */}
+      <section className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 mb-28">
+
         {/* LEFT */}
         <FadeUp>
           <div>
-            <p className="text-gray-400 mb-10">
-              Our dedicated team is committed to providing you with exceptional
-              service. Reach out to us through any of the following channels.
+            <p className="text-gray-400 mb-10 leading-7">
+              Reach out anytime — we’re always happy to help with reservations,
+              private dining, events, or anything else you need.
             </p>
 
             <div className="space-y-6">
-              <div className="bg-neutral-900 rounded-2xl p-6 border border-yellow-500/10">
-                <h4 className="text-yellow-500 font-semibold mb-2 flex items-center gap-2">
+
+              <div className="bg-neutral-900 p-6 rounded-2xl border border-yellow-500/10 hover:border-yellow-500 transition duration-300">
+                <h3 className="text-yellow-500 font-semibold mb-2">
                   📍 Visit Us
-                </h4>
+                </h3>
                 <p className="text-gray-300 text-sm">
                   Main Market, Bhopal <br />
                   Madhya Pradesh 462022
                 </p>
-                <p className="text-yellow-500 text-xs mt-2">
-                  Located in the heart of the city
+              </div>
+
+              <div className="bg-neutral-900 p-6 rounded-2xl border border-yellow-500/10 hover:border-yellow-500 transition duration-300">
+                <h3 className="text-yellow-500 font-semibold mb-2">
+                  📞 Call Us
+                </h3>
+                <p className="text-gray-300 text-sm">
+                  +91 98765 43210
                 </p>
               </div>
 
-              <div className="bg-neutral-900 rounded-2xl p-6 border border-yellow-500/10">
-                <h4 className="text-yellow-500 font-semibold mb-2 flex items-center gap-2">
-                  📞 Call Us
-                </h4>
-                <p className="text-gray-300 text-sm">+91 XXXX XXXX XX</p>
-                <p className="text-yellow-500 text-xs mt-2">
-                  Available 24/7 for reservations
+              <div className="bg-neutral-900 p-6 rounded-2xl border border-yellow-500/10 hover:border-yellow-500 transition duration-300">
+                <h3 className="text-yellow-500 font-semibold mb-2">
+                  ✉ Email Us
+                </h3>
+                <p className="text-gray-300 text-sm">
+                  hello@flamius.com
                 </p>
               </div>
+
             </div>
           </div>
         </FadeUp>
 
-        {/* RIGHT FORM */}
-        <FadeUp delay={0.1}>
-          <div className="bg-neutral-900 rounded-2xl p-8 border border-yellow-500/10">
+        {/* FORM */}
+        <FadeUp delay={0.2}>
+          <div className="bg-neutral-900 rounded-2xl p-8 border border-yellow-500/10 shadow-xl">
+
             <form className="grid grid-cols-2 gap-6">
-              <div>
-                <label className="text-yellow-500 text-xs">FULL NAME *</label>
-                <input className="w-full mt-2 p-3 rounded-lg bg-black border border-yellow-500/20" />
-              </div>
 
               <div>
-                <label className="text-yellow-500 text-xs">EMAIL ADDRESS *</label>
-                <input className="w-full mt-2 p-3 rounded-lg bg-black border border-yellow-500/20" />
-              </div>
-
-              <div>
-                <label className="text-yellow-500 text-xs">PHONE NUMBER</label>
-                <input className="w-full mt-2 p-3 rounded-lg bg-black border border-yellow-500/20" />
-              </div>
-
-              <div>
-                <label className="text-yellow-500 text-xs">SUBJECT *</label>
-                <input className="w-full mt-2 p-3 rounded-lg bg-black border border-yellow-500/20" />
-              </div>
-
-              <div className="col-span-2">
-                <label className="text-yellow-500 text-xs">YOUR MESSAGE *</label>
-                <textarea
-                  rows="5"
-                  className="w-full mt-2 p-3 rounded-lg bg-black border border-yellow-500/20"
+                <label className="text-xs text-yellow-500 uppercase">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter name"
+                  className="w-full mt-2 p-3 rounded-lg bg-black border border-yellow-500/20 focus:border-yellow-500 outline-none"
                 />
               </div>
 
+              <div>
+                <label className="text-xs text-yellow-500 uppercase">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="Enter email"
+                  className="w-full mt-2 p-3 rounded-lg bg-black border border-yellow-500/20 focus:border-yellow-500 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs text-yellow-500 uppercase">
+                  Phone
+                </label>
+                <input
+                  type="text"
+                  placeholder="Phone number"
+                  className="w-full mt-2 p-3 rounded-lg bg-black border border-yellow-500/20 focus:border-yellow-500 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs text-yellow-500 uppercase">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  placeholder="Write subject"
+                  className="w-full mt-2 p-3 rounded-lg bg-black border border-yellow-500/20 focus:border-yellow-500 outline-none"
+                />
+              </div>
+
+              <div className="col-span-2">
+                <label className="text-xs text-yellow-500 uppercase">
+                  Message
+                </label>
+                <textarea
+                  rows="5"
+                  placeholder="Write your message..."
+                  className="w-full mt-2 p-3 rounded-lg bg-black border border-yellow-500/20 focus:border-yellow-500 outline-none resize-none"
+                ></textarea>
+              </div>
+
               <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.96 }}
-                className="col-span-2 mt-4 bg-gradient-to-r from-yellow-600 to-yellow-400
-                           text-black py-4 rounded-lg font-semibold"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                className="col-span-2 mt-2 bg-gradient-to-r from-yellow-600 to-yellow-400 text-black py-4 rounded-xl font-semibold"
               >
-                ✈ SEND MESSAGE
+                SEND MESSAGE ✈
               </motion.button>
+
             </form>
           </div>
         </FadeUp>
       </section>
 
-      {/* ================= CONNECT ================= */}
-      <section className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 mb-32">
-        <FadeUp>
-          <div>
-            <h2 className="text-4xl font-serif mb-6">
-              Connect With <span className="text-yellow-500">Flamius</span>
-            </h2>
-            <p className="text-gray-400 max-w-md">
-              Stay connected with us for exclusive offers and personalized
-              dining experiences.
-            </p>
-          </div>
-        </FadeUp>
-
-        <FadeUp delay={0.1}>
-          <div className="bg-neutral-900 rounded-2xl p-8 border border-yellow-500/10">
-            <h4 className="text-yellow-500 font-semibold mb-2">
-              💬 Send Us a Message
-            </h4>
-            <p className="text-gray-400 text-sm">
-              We’ll get back to you promptly.
-            </p>
-          </div>
-        </FadeUp>
-      </section>
-
-      {/* ================= MAP ================= */}
+      {/* MAP */}
       <FadeUp>
-        <section className="max-w-7xl mx-auto px-6 mb-32">
-          <h3 className="text-center text-3xl font-serif mb-8">
+        <section className="max-w-7xl mx-auto px-6 mb-24">
+          <h2 className="text-center text-3xl font-serif mb-8">
             Find Us Here
-          </h3>
+          </h2>
 
-          <div className="rounded-2xl bg-gradient-to-b from-[#1e2b3b] to-[#0b1622]
-                          p-16 text-center border border-yellow-500/10">
-            <div className="text-yellow-500 text-4xl mb-4">📍</div>
-            <h4>Main Market, Bhopal</h4>
-            <p className="text-gray-400 text-sm">
+          <div className="rounded-2xl bg-zinc-900 border border-yellow-500/10 p-20 text-center">
+            <div className="text-yellow-500 text-5xl mb-4">📍</div>
+            <h3 className="text-xl mb-2">Main Market, Bhopal</h3>
+            <p className="text-gray-400">
               Madhya Pradesh 462022
-            </p>
-            <p className="text-yellow-500 text-sm mt-4">
-              Interactive Map Coming Soon
             </p>
           </div>
         </section>
       </FadeUp>
 
-      {/* ================= FOOTER ================= */}
-      
+      {/* FOOTER */}
+      <footer className="border-t border-zinc-800 py-8 text-center text-gray-500 text-sm">
+        © 2026 Flamius Restaurant — Crafted with passion 🍽
+      </footer>
+
     </div>
   );
 };
