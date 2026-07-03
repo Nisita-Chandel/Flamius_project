@@ -15,6 +15,7 @@ import ResetPassword from "../pages/ResetPassword";
 import ProtectedRoute from "../components/ProtectedRoute";
 import ReservationPage from "../pages/ReservationPage";
 import ContactPage from "../pages/ContactPage";
+import Cart from "../components/Cart";
 
 const AppRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const AppRoutes = () => {
       <Route path="/admin/orders" element={<AdminOrdersPage />} />
       <Route path="/reservations" element={<ReservationPage />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/cart" element={<Cart />} />
 
 
 
